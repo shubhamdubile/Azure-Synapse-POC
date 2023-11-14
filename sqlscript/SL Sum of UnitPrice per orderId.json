@@ -1,0 +1,17 @@
+{
+	"name": "SL Sum of UnitPrice per orderId",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    SalesOrderID,sum(UnitPrice)\nFROM\n    OPENROWSET(\n        BULK 'https://synapsepocssd.dfs.core.windows.net/demo/SalesOrderDetail.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = TRUE,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\nGROUP BY SalesOrderID",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
