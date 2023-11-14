@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1d70c8fc-c2cf-41aa-aa0d-1910dcd2ba33"
+				"spark.autotune.trackingId": "dfafdf8f-c302-463b-ae3d-00154fce69f8"
 			}
 		},
 		"metadata": {
@@ -125,7 +125,7 @@
 					"spark.sql(\"CREATE DATABASE IF NOT EXISTS nyctaxi\")\r\n",
 					"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.trip\")"
 				],
-				"execution_count": 6
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
