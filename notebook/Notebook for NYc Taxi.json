@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "dfafdf8f-c302-463b-ae3d-00154fce69f8"
+				"spark.autotune.trackingId": "b94988cb-f030-4a60-a481-a18249c60e40"
 			}
 		},
 		"metadata": {
@@ -126,6 +126,42 @@
 					"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.trip\")"
 				],
 				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
