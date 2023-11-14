@@ -1,5 +1,5 @@
 {
-	"name": "load data into table using DP",
+	"name": "DP load data from file into table",
 	"properties": {
 		"content": {
 			"query": "IF NOT EXISTS (SELECT * FROM sys.objects O JOIN sys.schemas S ON O.schema_id = S.schema_id WHERE O.NAME = 'NYCTaxiTripSmall' AND O.TYPE = 'U' AND S.NAME = 'dbo')\nCREATE TABLE dbo.NYCTaxiTripSmall\n    (\n    \n    [passenger_count] float NULL, \n    [trip_distance] float NULL\n \n    )\nWITH\n    (\n    DISTRIBUTION = ROUND_ROBIN,\n     CLUSTERED COLUMNSTORE INDEX\n     -- HEAP\n    )\nGO\n\nCOPY INTO dbo.NYCTaxiTripSmall\n( \n passenger_count 8,trip_distance 9 )\nFROM 'https://synapsepocssd.dfs.core.windows.net/demo/NYCTripSmall.parquet'\nWITH\n(\n    FILE_TYPE = 'PARQUET'\n    ,MAXERRORS = 0\n    ,IDENTITY_INSERT = 'OFF'\n)",

@@ -1,5 +1,5 @@
 {
-	"name": "Create table in dedicated pool",
+	"name": "DP Create table using another table",
 	"properties": {
 		"content": {
 			"query": "SELECT passenger_count as PassengerCount,\n      SUM(trip_distance) as SumTripDistance_miles,\n      AVG(trip_distance) as AvgTripDistance_miles\nINTO dbo.PassengerCountStats0\nFROM  dbo.NYCTaxiTripSmall\n\nGROUP BY passenger_count;\n\nSELECT * FROM dbo.PassengerCountStats0\nORDER BY PassengerCount;",
