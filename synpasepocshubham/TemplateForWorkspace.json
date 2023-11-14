@@ -123,7 +123,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/DP load data from file into table ')]",
+			"name": "[concat(parameters('workspaceName'), '/DP load data from file into table')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -155,7 +155,7 @@
 			"location": "southeastasia"
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/Create table in dedicated pool')]",
+			"name": "[concat(parameters('workspaceName'), '/DP Create table using another table')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
