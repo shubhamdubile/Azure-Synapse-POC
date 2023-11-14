@@ -1,5 +1,5 @@
 {
-	"name": "Notebook for NYc Taxi",
+	"name": "Load NYc Taxi in Lake database",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b94988cb-f030-4a60-a481-a18249c60e40"
+				"spark.autotune.trackingId": "7a3b452e-d756-4390-9e24-5f3ab17724e5"
 			}
 		},
 		"metadata": {
