@@ -462,7 +462,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "27e12307-e7f0-4a93-bb0f-b634d75bcdcb"
+						"spark.autotune.trackingId": "10e3048c-dc26-43f2-b38a-ef1f0da5b4f0"
 					}
 				},
 				"metadata": {
@@ -525,8 +525,8 @@
 						},
 						"source": [
 							"df1 = df.repartition(1)\r\n",
-							"df1.write.mode(\"overwrite\").csv(\"/nyctaxi/csvfile\")\r\n",
-							"df1.write.mode(\"overwrite\").parquet(\"/nyctaxi/parquetfile\")"
+							"df1.write.mode(\"overwrite\").csv(\"/nyctaxi2/csvfile\")\r\n",
+							"df1.write.mode(\"overwrite\").parquet(\"/nyctaxi2/parquetfile\")"
 						],
 						"outputs": [],
 						"execution_count": 2
