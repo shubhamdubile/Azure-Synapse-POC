@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9f246355-63bf-4ff6-b326-e08fd8ad4763"
+				"spark.autotune.trackingId": "5e7ec9a2-dc5d-4c0d-be14-1d76bc757185"
 			}
 		},
 		"metadata": {
@@ -64,7 +64,7 @@
 					"df1.write.mode(\"overwrite\").csv(\"/nyctaxi/pipeline/csvfile\")\r\n",
 					"df1.write.mode(\"overwrite\").parquet(\"/nyctaxi/pipeline/parquetfile\")"
 				],
-				"execution_count": 1
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
