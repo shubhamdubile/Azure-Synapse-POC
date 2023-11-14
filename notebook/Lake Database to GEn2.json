@@ -4,7 +4,7 @@
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
-			"referenceName": "secondsparkpool",
+			"referenceName": "firstsparkpool",
 			"type": "BigDataPoolReference"
 		},
 		"sessionProperties": {
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5d7a434e-a5c3-4289-a86d-d6bf71b2795f"
+				"spark.autotune.trackingId": "9d17ebd7-c0ed-4e0a-a0a3-c7db713a556a"
 			}
 		},
 		"metadata": {
@@ -31,10 +31,10 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/bigDataPools/secondsparkpool",
-				"name": "secondsparkpool",
+				"id": "/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/bigDataPools/firstsparkpool",
+				"name": "firstsparkpool",
 				"type": "Spark",
-				"endpoint": "https://synpasepocshubham.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/secondsparkpool",
+				"endpoint": "https://synpasepocshubham.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/firstsparkpool",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
@@ -59,7 +59,7 @@
 				"source": [
 					"%%pyspark\r\n",
 					"df = spark.sql(\"SELECT * FROM nyctaxi.passengercountstats\") \r\n",
-					"display(df.limit(10))\r\n",
+					"\r\n",
 					""
 				],
 				"execution_count": 1
@@ -82,7 +82,7 @@
 					"df1.write.mode(\"overwrite\").csv(\"/nyctaxi/csvfile\")\r\n",
 					"df1.write.mode(\"overwrite\").parquet(\"/nyctaxi/parquetfile\")"
 				],
-				"execution_count": null
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
