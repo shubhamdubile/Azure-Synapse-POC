@@ -1,0 +1,17 @@
+{
+	"name": "Create External Data Source",
+	"properties": {
+		"content": {
+			"query": "CREATE DATABASE demoDB\nGO\n\nUSE demoDB\nGO\n\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Admin@123'\nGO\n\nCREATE DATABASE SCOPED CREDENTIAL demoCredential\nWITH \nIDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = 'sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2023-11-16T18:07:21Z&st=2023-11-16T10:07:21Z&spr=https&sig=Ww4Q%2BlP%2BTCbeTmAlCOEt5Q9w8TratgTUwZnhLVDGtYI%3D'\nGO\n\nCREATE EXTERNAL DATA SOURCE demoDataSource\nWITH\n(\n    LOCATION = 'https://synapsepocssd.blob.core.windows.net/',\n    CREDENTIAL = demoCredential\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "demoDB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

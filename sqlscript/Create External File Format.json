@@ -1,0 +1,17 @@
+{
+	"name": "Create External File Format",
+	"properties": {
+		"content": {
+			"query": "\nUSE demoDB\nGO\n\nCREATE EXTERNAL FILE FORMAT demoParquetFileFormat\nWITH\n(\n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "demoDB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

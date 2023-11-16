@@ -1,0 +1,17 @@
+{
+	"name": "CTEAS Managed Identity",
+	"properties": {
+		"content": {
+			"query": "\n\nCREATE DATABASE demoDB1\nCOLLATE LATIN1_GENERAL_100_BIN2_UTF8;\nGO\n\nUSE demoDB1\nGO\n\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Admin@123'\nGO\n\nCREATE DATABASE SCOPED CREDENTIAL ManagedIdentity\nWITH \nIDENTITY = 'Managed Identity'\nGO\n\nCREATE EXTERNAL DATA SOURCE demoDataSourceCTEAS\nWITH\n(\n    LOCATION = 'https://synapsepocssd.blob.core.windows.net/',\n    CREDENTIAL = ManagedIdentity\n)\nGO\n\nUSE demoDB1\nGO\n\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH\n(\n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n)\nGO\n\nUSE demoDB1\nGO\n\nCREATE SCHEMA nyctaxi\nGO\n\nCREATE EXTERNAL TABLE nyctaxi.PassengerCountStats\nWITH(\nLOCATION = 'https://synapsepocssd.dfs.core.windows.net/demo/nyctaxi/AggData/abc',\nDATA_SOURCE = demoDataSourceCTEAS,\nFILE_FORMAT = ParquetFileFormat\n)\nAS \n\nSELECT PassengerCount as PassengerCount,\n      SUM(TripDistanceMiles) as SumTripDistance_miles,\n      AVG(TripDistanceMiles) as AvgTripDistance_miles\n      FROM\n      OPENROWSET\n      (\n        BULK  'https://synapsepocssd.dfs.core.windows.net/demo/NYCTripSmall.parquet',\n        FORMAT = 'PARQUET'\n      )\n      AS [Result]\n      WHERE TripDistanceMiles > 0 and PassengerCount >0\n      Group BY PassengerCount\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "demoDB1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
