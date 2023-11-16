@@ -22,33 +22,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('workspaceName'), '/dedicatedpool')]",
-			"type": "Microsoft.Synapse/workspaces/sqlPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/firstsparkpool')]",
-			"type": "Microsoft.Synapse/workspaces/bigDataPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/secondsparkpool')]",
-			"type": "Microsoft.Synapse/workspaces/bigDataPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/Pipeline 1')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -167,6 +140,66 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CTEAS Managed Identity')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "\n\nCREATE DATABASE demoDB1\nCOLLATE LATIN1_GENERAL_100_BIN2_UTF8;\nGO\n\nUSE demoDB1\nGO\n\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Admin@123'\nGO\n\nCREATE DATABASE SCOPED CREDENTIAL ManagedIdentity\nWITH \nIDENTITY = 'Managed Identity'\nGO\n\nCREATE EXTERNAL DATA SOURCE demoDataSourceCTEAS\nWITH\n(\n    LOCATION = 'https://synapsepocssd.blob.core.windows.net/',\n    CREDENTIAL = ManagedIdentity\n)\nGO\n\nUSE demoDB1\nGO\n\nCREATE EXTERNAL FILE FORMAT ParquetFileFormat\nWITH\n(\n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n)\nGO\n\nUSE demoDB1\nGO\n\nCREATE SCHEMA nyctaxi\nGO\n\nCREATE EXTERNAL TABLE nyctaxi.PassengerCountStats\nWITH(\nLOCATION = 'https://synapsepocssd.dfs.core.windows.net/demo/nyctaxi/AggData/abc',\nDATA_SOURCE = demoDataSourceCTEAS,\nFILE_FORMAT = ParquetFileFormat\n)\nAS \n\nSELECT PassengerCount as PassengerCount,\n      SUM(TripDistanceMiles) as SumTripDistance_miles,\n      AVG(TripDistanceMiles) as AvgTripDistance_miles\n      FROM\n      OPENROWSET\n      (\n        BULK  'https://synapsepocssd.dfs.core.windows.net/demo/NYCTripSmall.parquet',\n        FORMAT = 'PARQUET'\n      )\n      AS [Result]\n      WHERE TripDistanceMiles > 0 and PassengerCount >0\n      Group BY PassengerCount\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "demoDB1",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Create External Data Source')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE DATABASE demoDB\nGO\n\nUSE demoDB\nGO\n\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Admin@123'\nGO\n\nCREATE DATABASE SCOPED CREDENTIAL demoCredential\nWITH \nIDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = 'sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2023-11-16T18:07:21Z&st=2023-11-16T10:07:21Z&spr=https&sig=Ww4Q%2BlP%2BTCbeTmAlCOEt5Q9w8TratgTUwZnhLVDGtYI%3D'\nGO\n\nCREATE EXTERNAL DATA SOURCE demoDataSource\nWITH\n(\n    LOCATION = 'https://synapsepocssd.blob.core.windows.net/',\n    CREDENTIAL = demoCredential\n)\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "demoDB",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Create External File Format')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "\nUSE demoDB\nGO\n\nCREATE EXTERNAL FILE FORMAT demoParquetFileFormat\nWITH\n(\n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n)\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "demoDB",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DP Create table using another table')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -218,6 +251,26 @@
 					},
 					"currentConnection": {
 						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'demo_synapsepocssd_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [demo_synapsepocssd_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://demo@synapsepocssd.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE dbo.abc (\n\t[DateID] int,\n\t[MedallionID] int,\n\t[HackneyLicenseID] int,\n\t[PickupTimeID] int,\n\t[DropoffTimeID] int,\n\t[PickupGeographyID] int,\n\t[DropoffGeographyID] int,\n\t[PickupLatitude] float,\n\t[PickupLongitude] float,\n\t[PickupLatLong] nvarchar(4000),\n\t[DropoffLatitude] float,\n\t[DropoffLongitude] float,\n\t[DropoffLatLong] nvarchar(4000),\n\t[PassengerCount] int,\n\t[TripDurationSeconds] int,\n\t[TripDistanceMiles] float,\n\t[PaymentType] nvarchar(4000),\n\t[FareAmount] numeric(19,4),\n\t[SurchargeAmount] numeric(19,4),\n\t[TaxAmount] numeric(19,4),\n\t[TipAmount] numeric(19,4),\n\t[TollsAmount] numeric(19,4),\n\t[TotalAmount] numeric(19,4)\n\t)\n\tWITH (\n\tLOCATION = 'NYCTripSmall.parquet',\n\tDATA_SOURCE = [demo_synapsepocssd_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.abc\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "demoDB",
 						"poolName": "Built-in"
 					},
 					"resultLimit": 5000
@@ -796,31 +849,6 @@
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/firstsparkpool')]",
-			"type": "Microsoft.Synapse/workspaces/bigDataPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"autoPause": {
-					"enabled": true,
-					"delayInMinutes": 15
-				},
-				"autoScale": {
-					"enabled": true,
-					"maxNodeCount": 3,
-					"minNodeCount": 3
-				},
-				"nodeCount": 10,
-				"nodeSize": "Small",
-				"nodeSizeFamily": "MemoryOptimized",
-				"sparkVersion": "3.3",
-				"isComputeIsolationEnabled": false,
-				"sessionLevelPackagesEnabled": false,
-				"annotations": []
-			},
-			"dependsOn": [],
-			"location": "southeastasia"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/secondsparkpool')]",
 			"type": "Microsoft.Synapse/workspaces/bigDataPools",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
