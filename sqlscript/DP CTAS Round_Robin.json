@@ -1,8 +1,8 @@
 {
-	"name": "DP CTAS Hash Distribution",
+	"name": "DP CTAS Round_Robin",
 	"properties": {
 		"content": {
-			"query": "CREATE TABLE dbo.employee_New\nWITH\n(\n   DISTRIBUTION = HASH(empName),\n    CLUSTERED COLUMNSTORE INDEX\n)\nAs \nSELECT  * from  dbo.employee\nGO\n",
+			"query": "CREATE TABLE dbo.employee_New_RR\nWITH\n(\n   DISTRIBUTION = Round_ROBIN,\n    CLUSTERED COLUMNSTORE INDEX\n)\nAs \nSELECT  * from  dbo.employee\nGO\n",
 			"metadata": {
 				"language": "sql"
 			},
