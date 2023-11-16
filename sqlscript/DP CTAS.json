@@ -1,0 +1,17 @@
+{
+	"name": "DP CTAS",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE dbo.employee_New\nWITH\n(\n   DISTRIBUTION = HASH(empName),\n    CLUSTERED COLUMNSTORE INDEX\n)\nAs \nSELECT  * from  dbo.employee\nGO\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dedicatedpool",
+				"poolName": "dedicatedpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

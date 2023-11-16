@@ -1,0 +1,17 @@
+{
+	"name": "DP Create Employee Table",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE [dbo].[employee]\n(\n    empId Int not NULL,\n    empName NVARCHAR(50),\n    gender NVARCHAR(20)\n\n)\nWITH\n(\n    DISTRIBUTION = HASH(empID),\n    CLUSTERED COLUMNSTORE INDEX\n)\n\nINSERT INTO [dbo].[employee] VALUES(1,'Harsh','Male');\nINSERT INTO [dbo].[employee]VALUES(2,'Jack','Male');\nINSERT INTO [dbo].[employee]VALUES(3,'Jelly','Female');",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dedicatedpool",
+				"poolName": "dedicatedpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
