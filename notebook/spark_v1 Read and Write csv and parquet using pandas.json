@@ -1,0 +1,197 @@
+{
+	"name": "spark_v1 Read and Write csv and parquet using pandas",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "secondsparkpol",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "9594d5df-df6f-4d63-97da-0b4fd17cc44a"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/bigDataPools/secondsparkpol",
+				"name": "secondsparkpol",
+				"type": "Spark",
+				"endpoint": "https://synpasepocshubham.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/secondsparkpol",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.3",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"#read csv and parquet file using pandas"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import pandas as pd\r\n",
+					"df = pd.read_csv('abfss://demo@synapsepocssd.dfs.core.windows.net/SalesOrderDetail.csv',\r\n",
+					"storage_options={'account_key':'BK0JFoIkWQM1vbnp3PfLmMB9gtRpJ+eHIHWcza3NsDj7RFlL8K+gCgBnmlsih3XZ1Etea+ZKwOZk+AStXMoPxA=='})\r\n",
+					"df1 = df['SalesOrderDetailID']"
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data = pd.DataFrame(df1)"
+				],
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"data.to_csv('abfss://demo@synapsepocssd.dfs.core.windows.net/abc.csv',\r\n",
+					"storage_options={'account_key':'BK0JFoIkWQM1vbnp3PfLmMB9gtRpJ+eHIHWcza3NsDj7RFlL8K+gCgBnmlsih3XZ1Etea+ZKwOZk+AStXMoPxA=='})\r\n",
+					""
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"p_df = pd.read_parquet('abfss://demo@synapsepocssd.dfs.core.windows.net/NYCTripSmall.parquet',\r\n",
+					"storage_options={'account_key':'BK0JFoIkWQM1vbnp3PfLmMB9gtRpJ+eHIHWcza3NsDj7RFlL8K+gCgBnmlsih3XZ1Etea+ZKwOZk+AStXMoPxA=='})\r\n",
+					"p_df.head()"
+				],
+				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"p_df1 = p_df['DateID']\r\n",
+					"p_df1.head()"
+				],
+				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"p_data = pd.DataFrame(p_df1)\r\n",
+					"p_data.to_parquet('abfss://demo@synapsepocssd.dfs.core.windows.net/smalltrip.parquet',\r\n",
+					"storage_options={'account_key':'BK0JFoIkWQM1vbnp3PfLmMB9gtRpJ+eHIHWcza3NsDj7RFlL8K+gCgBnmlsih3XZ1Etea+ZKwOZk+AStXMoPxA=='})\r\n",
+					""
+				],
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
