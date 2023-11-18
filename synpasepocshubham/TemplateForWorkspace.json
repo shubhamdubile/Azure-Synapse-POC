@@ -1077,7 +1077,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/Notebook 1')]",
+			"name": "[concat(parameters('workspaceName'), '/Notebook 1 -run')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -1097,7 +1097,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1f2785b2-a00f-4239-8fd3-0331b2a6bf40"
+						"spark.autotune.trackingId": "6caf19a9-23b8-4fcc-9524-3b7b964998df"
 					}
 				},
 				"metadata": {
@@ -1122,22 +1122,37 @@
 						"sparkVersion": "3.3",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"name = \"Shubham\"\r\n",
+							"print('Hello '+name)"
+						],
+						"outputs": [],
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
 						"metadata": {
-							"microsoft": {
-								"language": "scala"
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
 							}
 						},
 						"source": [
-							"%%spark\r\n",
-							"val spark_df = spark.read.sqlanalytics(\"demoDB1.nyctaxi.PassengerCountStats\")\r\n",
-							"spark_df.show()"
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -1514,7 +1529,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d08cb12c-a321-41ec-9922-1388786340a0"
+						"spark.autotune.trackingId": "de132962-e316-4a2c-a3cd-0fe42daf829f"
 					}
 				},
 				"metadata": {
