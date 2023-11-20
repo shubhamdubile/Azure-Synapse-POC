@@ -1,0 +1,127 @@
+{
+	"name": "Pause and Resume Dedicated SQL Pool",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://management.azure.com/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/sqlPools?api-version=2021-06-01",
+					"connectVia": {
+						"referenceName": "AutoResolveIntegrationRuntime",
+						"type": "IntegrationRuntimeReference"
+					},
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com/"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Web1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().properties.status,'Online')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Resume SQL Pool",
+										"type": "WebActivity",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"url": {
+												"value": "https://management.azure.com/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/sqlPools/@{item().name}/resume?api-version=2021-06-01",
+												"type": "Expression"
+											},
+											"connectVia": {
+												"referenceName": "AutoResolveIntegrationRuntime",
+												"type": "IntegrationRuntimeReference"
+											},
+											"method": "POST",
+											"authentication": {
+												"type": "MSI",
+												"resource": "https://management.azure.com/"
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Pause SQL Pool",
+										"type": "WebActivity",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"url": {
+												"value": "https://management.azure.com/subscriptions/aa92dd3b-6b94-4f17-90fe-f82f46b88530/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/synpasepocshubham/sqlPools/@{item().name}/pause?api-version=2021-06-01",
+												"type": "Expression"
+											},
+											"connectVia": {
+												"referenceName": "AutoResolveIntegrationRuntime",
+												"type": "IntegrationRuntimeReference"
+											},
+											"method": "POST",
+											"authentication": {
+												"type": "MSI",
+												"resource": "https://management.azure.com/"
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
